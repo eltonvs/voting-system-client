@@ -22,9 +22,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.content {
-  display: flex;
-  justify-content: center;
-}
+<style lang="sass" scoped>
+.content
+  :display flex
+  :justify-content center
 </style>

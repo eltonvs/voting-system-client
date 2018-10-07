@@ -1,20 +1,23 @@
 <template>
   <div class="header">
     <img class="logo" alt="Logo - Tribunal Superior Eleitoral" src="@/assets/logo.png">
-    <hr>
+    <Separator/>
   </div>
 </template>
 
-<style scoped>
-.logo {
-  width: 250px;
-}
+<script>
+import Separator from '@/components/Separator.vue';
 
-hr {
-  border: 0;
-  height: 0;
-  border-top: 1px solid #00000020;
-  border-bottom: 1px solid #ffffff40;
-  margin: 60px 0;
-}
+export default {
+  name: 'Header',
+  components: {
+    Separator,
+  },
+};
+</script>
+
+
+<style lang="sass" scoped>
+.logo
+  :width 250px
 </style>
