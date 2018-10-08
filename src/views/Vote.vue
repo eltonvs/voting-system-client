@@ -4,6 +4,7 @@
     <div class="content">
       <RequestVoterId v-model="voterId"/>
       <button class="button button-primary" type="button">Continuar</button>
+      <VotingMachine/>
       <p>Voter ID: {{ voterId }}</p>
     </div>
     <Footer/>
@@ -13,6 +14,7 @@
 <script>
 import Header from '@/components/Header.vue';
 import RequestVoterId from '@/components/RequestVoterId.vue';
+import VotingMachine from '@/components/VotingMachine.vue';
 import Footer from '@/components/Footer.vue';
 
 export default {
@@ -20,6 +22,7 @@ export default {
   components: {
     Header,
     RequestVoterId,
+    VotingMachine,
     Footer,
   },
   data() {

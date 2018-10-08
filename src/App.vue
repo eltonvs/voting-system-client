@@ -43,7 +43,7 @@ img
   :border-radius 0.25rem
   :background-color $input-bg-color
   :padding 15px 20px
-  :margin 15px
+  :margin 10px
   :color $black
   :max-width 100%
   :width 300px
@@ -61,7 +61,7 @@ img
   :border none
   :border-radius 0.25rem
   :padding 15px 20px
-  :margin 15px
+  :margin 10px
   :max-width 100%
   :width 300px
   :font-size 16px
