@@ -2,10 +2,13 @@
   <div class="vote">
     <Header/>
     <div class="content">
-      <div>
-        <input class="input" v-model="voterId" placeholder="Título de Eleitor">
-        <button class="button button-primary" type="button">Continuar</button>
-      </div>
+      <RequestVoterId v-model="voterId" v-if="firstStep()" @keyup.native.enter="nextStep()"/>
+      <button class="button button-primary" type="button" v-if="firstStep()" @click="nextStep()">
+        Continuar
+      </button>
+      <VotingMachine v-model="candidateNumber" v-if="!firstStep()"/>
+      <p>Voter ID: {{ voterId }}</p>
+      <p>Candidate Number: {{ candidateNumber }}</p>
     </div>
     <Footer/>
   </div>
@@ -13,17 +16,29 @@
 
 <script>
 import Header from '@/components/Header.vue';
+import RequestVoterId from '@/components/RequestVoterId.vue';
+import VotingMachine from '@/components/VotingMachine.vue';
 import Footer from '@/components/Footer.vue';
 
 export default {
   name: 'vote',
   components: {
     Header,
+    RequestVoterId,
+    VotingMachine,
     Footer,
   },
-  data: () => ({
-    voterId: '',
-  }),
+  data() {
+    return { voterId: '', candidateNumber: '', step: 0 };
+  },
+  methods: {
+    nextStep() {
+      this.step += 1;
+    },
+    firstStep() {
+      return this.step === 0;
+    },
+  },
 };
 </script>
 
