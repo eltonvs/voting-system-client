@@ -6,9 +6,7 @@
       <button class="button button-primary" type="button" v-if="firstStep()" @click="nextStep()">
         Continuar
       </button>
-      <VotingMachine v-model="candidateNumber" v-if="!firstStep()"/>
-      <p>Voter ID: {{ voterId }}</p>
-      <p>Candidate Number: {{ candidateNumber }}</p>
+      <VotingMachine v-model="candidateNumber" :voterId="voterId" v-if="!firstStep()"/>
     </div>
     <Footer/>
   </div>

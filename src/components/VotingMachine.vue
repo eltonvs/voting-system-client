@@ -5,7 +5,8 @@
           <template v-if="!submitted">
             <h2>Presidente</h2>
             <div class="candidate-photo">
-              <img src="@/assets/ghost.jpg" alt="Foto Candidato">
+              <img v-if="candidatePhoto !== ''" :src="candidatePhoto" alt="Foto Candidato">
+              <img v-if="candidatePhoto === ''" src="@/assets/ghost.jpg" alt="Foto Candidato">
             </div>
             <div class="data">
               <div class="data-item">
@@ -49,35 +50,66 @@
             </div>
             <div class="actions">
               <button class="action-button action-blank" @click="blankAction()">Branco</button>
-              <button class="action-button action-fix" @click="clearNumber()">Corrige</button>
+              <button class="action-button action-fix" @click="clearAll()">Corrige</button>
               <button class="action-button action-confirm" @click="submit()">Confirma</button>
             </div>
           </div>
         </div>
       </div>
+      <modal
+      v-show="isModalVisible"
+      @close="closeModal"
+      :modalTitle="modalTitle"
+      :modalBody="modalBody"
+      modalClose="Fechar"
+    />
     </div>
 </template>
 
 <script>
+import Modal from '@/components/Modal.vue';
+
 export default {
   name: 'RequestVoterId',
+  components: { Modal },
   props: {
     value: String,
+    voterId: String,
   },
   data() {
     return {
+      isModalVisible: false,
+      modalTitle: 'Um erro aconteceu!',
+      modalBody: 'Tente novamente mais tarde',
       candidateNumber: this.value,
       candidateName: '-',
       candidateParty: '-',
+      candidatePhoto: '',
       isBlank: false,
       submitted: false,
+      baseUrl: 'http://localhost:8080/voting-system',
     };
   },
   methods: {
+    showModal(title, message) {
+      this.modalTitle = title;
+      this.modalBody = message;
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
+    },
     numberClick(number) {
       if (!this.submitted && !this.isValid()) {
         this.candidateNumber += `${number}`;
+        if (this.isValid()) {
+          this.loadCandidate();
+        }
       }
+    },
+    clearAll() {
+      this.clearNumber();
+      this.setDefaults();
     },
     clearNumber() {
       if (!this.submitted) {
@@ -87,19 +119,49 @@ export default {
     blankAction() {
       if (!this.submitted) {
         this.isBlank = true;
-        this.clearNumber();
+        this.clearAll();
         this.submit();
       }
     },
     submit() {
       if (!this.submitted && this.isValid()) {
-        alert('submitted!');
+        // this.$http.post(`${this.baseUrl}/votes`, )
         this.isBlank = false;
         this.submitted = true;
       }
     },
+    setDefaults() {
+      this.candidateName = '-';
+      this.candidateParty = '-';
+      this.candidatePhoto = '';
+    },
+    setNullCandidate() {
+      this.candidateName = 'NULO';
+      this.candidateParty = 'NULO';
+      this.candidatePhoto = '';
+    },
     isValid() {
       return this.isBlank || this.candidateNumber.length === 2;
+    },
+    loadCandidate() {
+      this.setDefaults();
+      this.$http.get(`${this.baseUrl}/candidates/${this.candidateNumber}`).then(
+        (response) => {
+          if (response.status === 200) {
+            this.candidateName = response.body.name;
+            this.candidateParty = response.body.politicalParty;
+            this.candidatePhoto = response.body.urlImg;
+          } else {
+            this.setNullCandidate();
+          }
+        },
+        () => {
+          this.showModal(
+            'Erro ao se conectar com o servidor',
+            'Não foi possível recuperar os dados do candidato, tente novamente mais tarde.',
+          );
+        },
+      );
     },
   },
   watch: {
