@@ -2,7 +2,7 @@
   <div class="vote">
     <Header/>
     <div class="content">
-      <RequestVoterId v-model="voterId" v-if="firstStep()"/>
+      <RequestVoterId v-model="voterId" v-if="firstStep()" @keyup.native.enter="nextStep()"/>
       <button class="button button-primary" type="button" v-if="firstStep()" @click="nextStep()">
         Continuar
       </button>

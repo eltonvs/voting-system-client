@@ -26,7 +26,7 @@
           </template>
           <template v-if="submitted">
             <div class="centered">
-              <h2 class="end">FIM!</h2>
+              <h2 class="end">FIM</h2>
             </div>
           </template>
         </div>
