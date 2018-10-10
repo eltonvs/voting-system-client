@@ -1,6 +1,8 @@
 <template>
   <div class="header">
-    <img class="logo" alt="Logo - Tribunal Superior Eleitoral" src="@/assets/logo.png">
+    <router-link to="/" title="Voltar para a Página Inicial">
+      <img class="logo" alt="Logo - Tribunal Superior Eleitoral" src="@/assets/logo.png">
+    </router-link>
     <Separator/>
   </div>
 </template>
