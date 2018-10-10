@@ -2,9 +2,11 @@
   <div class="vote">
     <Header/>
     <div class="content">
-      <RequestVoterId v-model="voterId" v-if="step === 0"/>
-      <button class="button button-primary" type="button" v-if="step === 0" @click="step++">Continuar</button>
-      <VotingMachine v-model="candidateNumber" v-if="step === 1"/>
+      <RequestVoterId v-model="voterId" v-if="firstStep()"/>
+      <button class="button button-primary" type="button" v-if="firstStep()" @click="nextStep()">
+        Continuar
+      </button>
+      <VotingMachine v-model="candidateNumber" v-if="!firstStep()"/>
       <p>Voter ID: {{ voterId }}</p>
       <p>Candidate Number: {{ candidateNumber }}</p>
     </div>
@@ -28,6 +30,14 @@ export default {
   },
   data() {
     return { voterId: '', candidateNumber: '', step: 0 };
+  },
+  methods: {
+    nextStep() {
+      this.step += 1;
+    },
+    firstStep() {
+      return this.step === 0;
+    },
   },
 };
 </script>
