@@ -2,10 +2,11 @@
   <div class="vote">
     <Header/>
     <div class="content">
-      <RequestVoterId v-model="voterId"/>
-      <button class="button button-primary" type="button">Continuar</button>
-      <VotingMachine/>
+      <RequestVoterId v-model="voterId" v-if="step === 0"/>
+      <button class="button button-primary" type="button" v-if="step === 0" @click="step++">Continuar</button>
+      <VotingMachine v-model="candidateNumber" v-if="step === 1"/>
       <p>Voter ID: {{ voterId }}</p>
+      <p>Candidate Number: {{ candidateNumber }}</p>
     </div>
     <Footer/>
   </div>
@@ -26,7 +27,7 @@ export default {
     Footer,
   },
   data() {
-    return { voterId: '' };
+    return { voterId: '', candidateNumber: '', step: 0 };
   },
 };
 </script>

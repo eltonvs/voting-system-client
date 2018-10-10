@@ -2,24 +2,33 @@
     <div class="voting-machine">
       <div class="voting-machine-container">
         <div class="candidate-info">
-          <h2>Presidente</h2>
-          <div class="candidate-photo">
-            <img src="@/assets/ghost.jpg" alt="Foto Candidato">
-          </div>
-          <div class="data">
-            <div class="data-item">
-              <h3 class="data-item-title">Número</h3>
-              <p class="data-item-info"><span class="candidate-number"></span></p>
+          <template v-if="!submitted">
+            <h2>Presidente</h2>
+            <div class="candidate-photo">
+              <img src="@/assets/ghost.jpg" alt="Foto Candidato">
             </div>
-            <div class="data-item">
-              <h3 class="data-item-title">Nome</h3>
-              <p class="data-item-info candidate-name">-</p>
+            <div class="data">
+              <div class="data-item">
+                <h3 class="data-item-title">Número</h3>
+                <p class="data-item-info">
+                  <span class="candidate-number">{{ candidateNumber }}</span>
+                </p>
+              </div>
+              <div class="data-item">
+                <h3 class="data-item-title">Nome</h3>
+                <p class="data-item-info candidate-name">{{ candidateName }}</p>
+              </div>
+              <div class="data-item">
+                <h3 class="data-item-title">Partido</h3>
+                <p class="data-item-info candidate-party">{{ candidateParty }}</p>
+              </div>
             </div>
-            <div class="data-item">
-              <h3 class="data-item-title">Partido</h3>
-              <p class="data-item-info candidate-party">-</p>
+          </template>
+          <template v-if="submitted">
+            <div class="centered">
+              <h2 class="end">FIM!</h2>
             </div>
-          </div>
+          </template>
         </div>
         <div class="right-area">
           <div class="header">
@@ -27,27 +36,79 @@
           </div>
           <div class="buttons">
             <div class="numbers">
-              <button>1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>4</button>
-              <button>5</button>
-              <button>6</button>
-              <button>7</button>
-              <button>8</button>
-              <button>9</button>
-              <button>0</button>
+              <button @click="numberClick(1)">1</button>
+              <button @click="numberClick(2)">2</button>
+              <button @click="numberClick(3)">3</button>
+              <button @click="numberClick(4)">4</button>
+              <button @click="numberClick(5)">5</button>
+              <button @click="numberClick(6)">6</button>
+              <button @click="numberClick(7)">7</button>
+              <button @click="numberClick(8)">8</button>
+              <button @click="numberClick(9)">9</button>
+              <button @click="numberClick(0)">0</button>
             </div>
             <div class="actions">
-              <button class="action-button action-blank">Branco</button>
-              <button class="action-button action-fix">Corrige</button>
-              <button class="action-button action-confirm">Confirma</button>
+              <button class="action-button action-blank" @click="blankAction()">Branco</button>
+              <button class="action-button action-fix" @click="clearNumber()">Corrige</button>
+              <button class="action-button action-confirm" @click="submit()">Confirma</button>
             </div>
           </div>
         </div>
       </div>
     </div>
 </template>
+
+<script>
+export default {
+  name: 'RequestVoterId',
+  props: {
+    value: String,
+  },
+  data() {
+    return {
+      candidateNumber: this.value,
+      candidateName: '-',
+      candidateParty: '-',
+      isBlank: false,
+      submitted: false,
+    };
+  },
+  methods: {
+    numberClick(number) {
+      if (!this.submitted && !this.isValid()) {
+        this.candidateNumber += `${number}`;
+      }
+    },
+    clearNumber() {
+      if (!this.submitted) {
+        this.candidateNumber = '';
+      }
+    },
+    blankAction() {
+      if (!this.submitted) {
+        this.isBlank = true;
+        this.clearNumber();
+        this.submit();
+      }
+    },
+    submit() {
+      if (!this.submitted && this.isValid()) {
+        alert('submitted!');
+        this.isBlank = false;
+        this.submitted = true;
+      }
+    },
+    isValid() {
+      return this.isBlank || this.candidateNumber.length === 2;
+    },
+  },
+  watch: {
+    candidateNumber(val) {
+      this.$emit('input', val);
+    },
+  },
+};
+</script>
 
 <style lang="sass" scoped>
 .voting-machine-container
@@ -57,6 +118,8 @@
   :border 2px solid #000
 
 .candidate-info
+  :display flex
+  :flex-direction column
   :flex 1
   :background-color #fff
   :margin 15px
@@ -67,6 +130,9 @@
     :margin 0
     :text-align center
     :font-size 30px
+
+  .end
+    :font-size 60px
 
 .candidate-photo
   :margin-top 30px
@@ -106,7 +172,15 @@
   :flex 1
   :margin 0
 
+.centered
+  :display flex
+  :align-items center
+  :justify-content center
+  :flex 1
+
 .right-area
+  :display flex
+  :flex-direction column
   :flex .8
   :margin 15px
 
@@ -116,6 +190,10 @@
   :margin-bottom 5px
 
 .buttons
+  :display flex
+  :flex-direction column
+  :justify-content space-evenly
+  :flex 1
   :background-color #000
 
 .numbers
