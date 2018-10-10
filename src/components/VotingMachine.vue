@@ -3,20 +3,23 @@
       <div class="voting-machine-container">
         <div class="candidate-info">
           <h2>Presidente</h2>
-          <ul class="data unstyled">
-            <li>
-              <strong>Número</strong>
-              <span class="candidate-number">30</span>
-            </li>
-            <li>
-              <strong>Nome</strong>
-              <span class="candidate-name">Fulano de Tal</span>
-            </li>
-            <li>
-              <strong>Partido</strong>
-              <span class="candidate-party">PPPP</span>
-            </li>
-          </ul>
+          <div class="candidate-photo">
+            <img src="@/assets/ghost.jpg" alt="Foto Candidato">
+          </div>
+          <div class="data">
+            <div class="data-item">
+              <h3 class="data-item-title">Número</h3>
+              <p class="data-item-info"><span class="candidate-number"></span></p>
+            </div>
+            <div class="data-item">
+              <h3 class="data-item-title">Nome</h3>
+              <p class="data-item-info candidate-name">-</p>
+            </div>
+            <div class="data-item">
+              <h3 class="data-item-title">Partido</h3>
+              <p class="data-item-info candidate-party">-</p>
+            </div>
+          </div>
         </div>
         <div class="right-area">
           <div class="header">
@@ -63,26 +66,45 @@
   h2
     :margin 0
     :text-align center
+    :font-size 30px
 
-.unstyled
-  :padding 0
-  :margin 0
+.candidate-photo
+  :margin-top 30px
+  :text-align center
 
-  li
-    :list-style none
+  img
+    :height 160px
+    :width auto
+    :outline 2px solid
+    :outline-offset 5px
 
 .data
-  :margin-top 40px
+  :margin-top 30px
   :font-size 18px
 
   .candidate-number
+    :display block
     :font-family 'Roboto Mono', monospace
     :margin 0
     :font-size 32px
     :padding 5px
     :width 60px
+    :height 60px
     :text-align center
     :border 1px solid #000
+
+.data-item
+  :display flex
+  :align-items center
+  :margin-bottom 20px
+
+.data-item-title
+  :flex 1
+  :margin 0
+
+.data-item-info
+  :flex 1
+  :margin 0
 
 .right-area
   :flex .8
