@@ -140,17 +140,17 @@ export default {
               this.submitted = true;
             },
             (response) => {
-              let modalTitle = '';
-              let modalBody = '';
               if (response.status === 401) {
-                modalTitle = 'Esse usuário já votou!';
-                modalBody = 'Um usuário só pode votar uma única vez!';
+                this.$emit('reset');
+                this.clearAll();
               } else {
-                modalTitle = 'Erro ao se conectar com o servidor';
-                modalBody =
-                  'Não foi possível concluir a requisição, tente novamente mais tarde.';
+                this.showModal(
+                  'Erro ao se conectar com o servidor',
+                  'Não foi possível concluir a requisição, tente novamente mais tarde.',
+                );
+                this.isBlank = false;
+                this.submitted = false;
               }
-              this.showModal(modalTitle, modalBody);
             },
           );
       }
