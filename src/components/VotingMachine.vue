@@ -141,8 +141,8 @@ export default {
             },
             (response) => {
               if (response.status === 401) {
-                this.$emit('reset');
                 this.clearAll();
+                this.$emit('reset');
               } else {
                 this.showModal(
                   'Erro ao se conectar com o servidor',
