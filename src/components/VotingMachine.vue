@@ -125,9 +125,34 @@ export default {
     },
     submit() {
       if (!this.submitted && this.isValid()) {
-        // this.$http.post(`${this.baseUrl}/votes`, )
-        this.isBlank = false;
-        this.submitted = true;
+        const data = JSON.stringify({
+          voterId: this.voterId,
+          candidateNumber: this.isBlank ? '-1' : this.candidateNumber,
+        });
+
+        this.$http
+          .post(`${this.baseUrl}/votes`, data, {
+            headers: { 'Content-Type': 'application/json' },
+          })
+          .then(
+            () => {
+              this.isBlank = false;
+              this.submitted = true;
+            },
+            (response) => {
+              let modalTitle = '';
+              let modalBody = '';
+              if (response.status === 401) {
+                modalTitle = 'Esse usuário já votou!';
+                modalBody = 'Um usuário só pode votar uma única vez!';
+              } else {
+                modalTitle = 'Erro ao se conectar com o servidor';
+                modalBody =
+                  'Não foi possível concluir a requisição, tente novamente mais tarde.';
+              }
+              this.showModal(modalTitle, modalBody);
+            },
+          );
       }
     },
     setDefaults() {

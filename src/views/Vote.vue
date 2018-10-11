@@ -31,7 +31,9 @@ export default {
   },
   methods: {
     nextStep() {
-      this.step += 1;
+      if (this.voterId.length > 1) {
+        this.step += 1;
+      }
     },
     firstStep() {
       return this.step === 0;
