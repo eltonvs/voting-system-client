@@ -23,7 +23,7 @@
     "node-sass": "^4.9.3",
     "prettier": "^1.18.2",
     "sass-loader": "^7.1.0",
-    "style-loader": "^0.23.0",
+    "style-loader": "^0.23.1",
     "vue-template-compiler": "^2.5.17"
   },
   "gitHooks": {
