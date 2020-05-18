@@ -19,7 +19,7 @@
     "@vue/cli-plugin-eslint": "^3.12.1",
     "@vue/cli-service": "^4.2.2",
     "@vue/eslint-config-airbnb": "^4.0.1",
-    "lint-staged": "^10.0.7",
+    "lint-staged": "^10.2.3",
     "node-sass": "^4.13.1",
     "prettier": "^1.19.1",
     "sass-loader": "^8.0.2",
